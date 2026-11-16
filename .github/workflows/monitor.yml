@@ -2,7 +2,7 @@ name: Adliye duyuru takibi
 
 on:
   schedule:
-    - cron: "2/5 * * * *"
+    - cron: "7/5 * * * *"
   workflow_dispatch:
 
 permissions:
