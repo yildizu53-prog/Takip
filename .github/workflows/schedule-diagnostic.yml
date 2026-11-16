@@ -1,0 +1,16 @@
+name: Schedule diagnostic
+
+on:
+  schedule:
+    - cron: "4/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm scheduled trigger
+        run: |
+          echo "Schedule diagnostic started"
+          echo "Event: $GITHUB_EVENT_NAME"
+          echo "UTC time: $(date -u)"
