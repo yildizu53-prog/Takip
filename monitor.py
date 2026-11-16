@@ -162,11 +162,11 @@ def send_scan_success(site_count, candidate_count, verified_count, new_count):
         raise RuntimeError("Başarılı tarama bildirimi için Telegram Secrets eksik.")
 
     message = (
-        "✅ Adliye taraması başarılı!\\n"
-        f"Kontrol edilen adliye sitesi: {site_count}\\n"
-        f"Bulunan duyuru bağlantısı: {candidate_count}\\n"
-        f"İçeriği doğrulanan: {verified_count}\\n"
-        f"Yeni duyuru: {new_count}\\n"
+        "✅ Adliye taraması başarılı!\n"
+        f"Kontrol edilen adliye sitesi: {site_count}\n"
+        f"Bulunan duyuru bağlantısı: {candidate_count}\n"
+        f"İçeriği doğrulanan: {verified_count}\n"
+        f"Yeni duyuru: {new_count}\n"
         "Sonraki tarama planı: yaklaşık 5 dakika sonra."
     )
     response = requests.post(
