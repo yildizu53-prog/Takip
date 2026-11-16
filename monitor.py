@@ -125,6 +125,35 @@ def send_mail(items):
         print("E-posta gönderildi:", item["url"], flush=True)
 
 
+
+def send_telegram(items):
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        print("Telegram ayarları eksik; TELEGRAM_BOT_TOKEN ve TELEGRAM_CHAT_ID GitHub Secrets alanlarına eklenmeli.", flush=True)
+        return
+
+    api_url = f"https://api.telegram.org/bot{token}/sendMessage"
+    for item in items:
+        text = (
+            "🔔 Yeni adliye duyurusu\\n"
+            f"Kaynak: {item['site']}\\n"
+            f"Başlık: {item['title']}\\n"
+            f"Bağlantı: {item['url']}\\n\\n"
+            f"{item['snippet'][:700]}"
+        )
+        response = requests.post(
+            api_url,
+            json={"chat_id": chat_id, "text": text, "disable_web_page_preview": False},
+            timeout=20,
+        )
+        response.raise_for_status()
+        data = response.json()
+        if not data.get("ok"):
+            raise RuntimeError("Telegram API mesajı kabul etmedi.")
+        print("Telegram mesajı gönderildi:", item["url"], flush=True)
+
+
 def main():
     try:
         with open(STATE, encoding="utf-8") as state_file:
@@ -176,6 +205,7 @@ def main():
     new_items = [item for item in verified if item["url"] not in seen]
     if new_items:
         send_mail(new_items)
+        send_telegram(new_items)
 
     # Başarısız/erişilemeyen bağlantılar seen listesine eklenmez; sonraki taramada tekrar denenir.
     seen.update(item["url"] for item in verified)
