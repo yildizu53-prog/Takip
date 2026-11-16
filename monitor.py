@@ -136,10 +136,10 @@ def send_telegram(items):
     api_url = f"https://api.telegram.org/bot{token}/sendMessage"
     for item in items:
         text = (
-            "🔔 Yeni adliye duyurusu\\n"
-            f"Kaynak: {item['site']}\\n"
-            f"Başlık: {item['title']}\\n"
-            f"Bağlantı: {item['url']}\\n\\n"
+            "🔔 Yeni adliye duyurusu\n"
+            f"Kaynak: {item['site']}\n"
+            f"Başlık: {item['title']}\n"
+            f"Bağlantı: {item['url']}\n\n"
             f"{item['snippet'][:700]}"
         )
         response = requests.post(
