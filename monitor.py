@@ -154,6 +154,32 @@ def send_telegram(items):
         print("Telegram mesajı gönderildi:", item["url"], flush=True)
 
 
+
+def send_scan_success(site_count, candidate_count, verified_count, new_count):
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat_id:
+        raise RuntimeError("Başarılı tarama bildirimi için Telegram Secrets eksik.")
+
+    message = (
+        "✅ Adliye taraması başarılı!\\n"
+        f"Kontrol edilen adliye sitesi: {site_count}\\n"
+        f"Bulunan duyuru bağlantısı: {candidate_count}\\n"
+        f"İçeriği doğrulanan: {verified_count}\\n"
+        f"Yeni duyuru: {new_count}\\n"
+        "Sonraki tarama planı: yaklaşık 5 dakika sonra."
+    )
+    response = requests.post(
+        f"https://api.telegram.org/bot{token}/sendMessage",
+        json={"chat_id": chat_id, "text": message},
+        timeout=20,
+    )
+    response.raise_for_status()
+    if not response.json().get("ok"):
+        raise RuntimeError("Telegram tarama başarı bildirimi gönderilemedi.")
+    print("Tarama başarı bildirimi Telegram'a gönderildi.", flush=True)
+
+
 def main():
     try:
         with open(STATE, encoding="utf-8") as state_file:
@@ -200,6 +226,7 @@ def main():
         with open(STATE, "w", encoding="utf-8") as state_file:
             json.dump(state, state_file, ensure_ascii=False, indent=2)
         print("İlk tarama tamamlandı: doğrulanmış başlangıç envanteri kaydedildi; e-posta gönderilmedi.", flush=True)
+        send_scan_success(len(roots), len(candidates), len(verified), 0)
         return
 
     new_items = [item for item in verified if item["url"] not in seen]
@@ -216,6 +243,7 @@ def main():
             "updated": datetime.now(timezone.utc).isoformat(),
         }, state_file, ensure_ascii=False, indent=2)
     print("Yeni doğrulanmış duyuru:", len(new_items), flush=True)
+    send_scan_success(len(roots), len(candidates), len(verified), len(new_items))
 
 
 if __name__ == "__main__":
