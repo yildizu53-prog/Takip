@@ -1,4 +1,4 @@
-import os, json, smtplib
+import os, json, smtplib, re, unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from email.mime.text import MIMEText
 from urllib.parse import urljoin, urlparse, urldefrag
@@ -106,6 +106,43 @@ def scan_root(root):
     return [(url, root, label) for url, label in candidates.items()]
 
 
+def normalize_text(value):
+    value = unicodedata.normalize("NFKD", value.lower())
+    value = "".join(ch for ch in value if not unicodedata.combining(ch))
+    return re.sub(r"\\s+", " ", value).strip()
+
+
+def is_recruitment_notice(item, body):
+    # Tek başına "duyuru", "sınav", "başvuru" gibi kelimeler yeterli değildir.
+    # İçerikte personel/işçi alımı veya buna bağlı sınav-sonuç süreci aranır.
+    text = normalize_text(item.get("title", "") + " " + body)
+    direct_phrases = (
+        "personel alimi", "personel alim", "personel temini",
+        "sozlesmeli personel", "surekli isci alimi", "isci alimi",
+        "zabit katibi alimi", "zabıt katibi alimi", "zabıt katibi alım",
+        "infaz ve koruma memuru alimi", "infaz koruma memuru alimi",
+        "mubasir alimi", "koruma ve guvenlik gorevlisi alimi",
+        "sofor alimi", "hizmetli alimi", "teknisyen alimi",
+        "memur alimi", "aday tespit", "personel alim sonuclari",
+    )
+    if any(normalize_text(phrase) in text for phrase in direct_phrases):
+        return True
+
+    employment_terms = (
+        "personel", "memur", "isçi", "isci", "zabit katibi",
+        "infaz koruma", "mubasir", "guvenlik gorevlisi",
+        "surekli isci", "sozlesmeli", "sofor", "hizmetli",
+    )
+    process_terms = (
+        "alim", "alimi", "basvuru", "sinav", "mulakat",
+        "sozlu", "uygulamali", "sonuc", "asil", "yedek",
+        "basarili", "basarisiz", "kura", "atama", "yerlestirme",
+    )
+    return any(term in text for term in employment_terms) and any(
+        term in text for term in process_terms
+    )
+
+
 def parse_published_date(soup):
     selectors = [
         ('meta[property="article:published_time"]', 'content'),
@@ -139,13 +176,15 @@ def verify_candidate(candidate):
     if len(body) < 80:
         return None
     published_at = parse_published_date(soup)
-    return {
+    item = {
         "url": url,
         "site": root,
         "title": page_title(html) or label or url,
         "snippet": body[:500],
         "published_at": published_at.isoformat() if published_at else None,
     }
+    item["_recruitment_match"] = is_recruitment_notice(item, body)
+    return item
 
 
 def send_mail(items):
@@ -277,7 +316,12 @@ def main():
     # Amaç: adliye sitesine yeni eklenen duyuru bağlantısını yakalamak.
     # Yayın tarihi filtresi kullanılmaz; tarihi olmayan ya da eski tarih gösteren
     # yeni keşfedilmiş personel alımı/sonuç duyuruları da kullanıcıya iletilir.
-    new_items = [item for item in verified if item["url"] not in seen]
+    # Tüm yeni sayfalar kayda alınır; bildirim yalnızca personel alımı ve
+    # bu alımlara bağlı sınav/sonuç/atama içeriklerine gönderilir.
+    new_items = [
+        item for item in verified
+        if item["url"] not in seen and item.pop("_recruitment_match", False)
+    ]
     for item in new_items:
         if not item.get("published_at"):
             item["snippet"] = "[Yayın tarihi sayfadan okunamadı] " + item["snippet"]
