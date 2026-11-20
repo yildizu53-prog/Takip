@@ -2,7 +2,7 @@ import os, json, smtplib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from email.mime.text import MIMEText
 from urllib.parse import urljoin, urlparse, urldefrag
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import requests
 from bs4 import BeautifulSoup
@@ -86,6 +86,29 @@ def scan_root(root):
     return [(url, root, label) for url, label in candidates.items()]
 
 
+def parse_published_date(soup):
+    selectors = [
+        ('meta[property="article:published_time"]', 'content'),
+        ('meta[property="og:published_time"]', 'content'),
+        ('meta[name="date"]', 'content'),
+        ('meta[name="publishdate"]', 'content'),
+        ('meta[itemprop="datePublished"]', 'content'),
+        ('time[datetime]', 'datetime'),
+    ]
+    for selector, attr in selectors:
+        node = soup.select_one(selector)
+        if node:
+            value = node.get(attr) or node.get_text(' ', strip=True)
+            try:
+                parsed = datetime.fromisoformat(value.strip().replace('Z', '+00:00'))
+                if parsed.tzinfo is None:
+                    parsed = parsed.replace(tzinfo=timezone.utc)
+                return parsed.astimezone(timezone.utc)
+            except (ValueError, TypeError):
+                continue
+    return None
+
+
 def verify_candidate(candidate):
     url, root, label = candidate
     html = get(url)
@@ -95,11 +118,13 @@ def verify_candidate(candidate):
     body = " ".join(soup.get_text(" ", strip=True).split())
     if len(body) < 80:
         return None
+    published_at = parse_published_date(soup)
     return {
         "url": url,
         "site": root,
         "title": page_title(html) or label or url,
         "snippet": body[:500],
+        "published_at": published_at.isoformat() if published_at else None,
     }
 
 
@@ -229,7 +254,22 @@ def main():
         send_scan_success(len(roots), len(candidates), len(verified), 0)
         return
 
-    new_items = [item for item in verified if item["url"] not in seen]
+    # Tarihi okunamayan veya son 24 saatten eski sayfalar bildirilmez.
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+    new_items = []
+    for item in verified:
+        if item["url"] in seen or not item.get("published_at"):
+            continue
+        try:
+            published = datetime.fromisoformat(item["published_at"].replace("Z", "+00:00"))
+            if published.tzinfo is None:
+                published = published.replace(tzinfo=timezone.utc)
+            if published >= cutoff:
+                new_items.append(item)
+            else:
+                print("Eski duyuru bildirime alinmadi:", item["url"], flush=True)
+        except ValueError:
+            print("Yayin tarihi okunamadi; bildirim atlandi:", item["url"], flush=True)
     if new_items:
         send_mail(new_items)
         send_telegram(new_items)
