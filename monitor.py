@@ -320,7 +320,7 @@ def main():
     # bu alımlara bağlı sınav/sonuç/atama içeriklerine gönderilir.
     new_items = [
         item for item in verified
-        if item["url"] not in seen and item.pop("_recruitment_match", False)
+        if item["url"] not in seen and item.get("_recruitment_match", False)
     ]
     for item in new_items:
         if not item.get("published_at"):
@@ -330,7 +330,7 @@ def main():
         send_telegram(new_items)
 
     # Başarısız/erişilemeyen bağlantılar seen listesine eklenmez; sonraki taramada tekrar denenir.
-    seen.update(item["url"] for item in verified)
+    seen.update(item["url"] for item in verified if item.get("_recruitment_match", False))
     with open(STATE, "w", encoding="utf-8") as state_file:
         json.dump({
             "initialized": True,
