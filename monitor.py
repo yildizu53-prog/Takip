@@ -278,7 +278,14 @@ def main():
     cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
     new_items = []
     for item in verified:
-        if item["url"] in seen or not item.get("published_at"):
+        if item["url"] in seen:
+            continue
+        # Tarih bilgisi yoksa yeni keşfedilen bağlantıyı da bildir:
+        # bazı adliye sayfaları yayın tarihini makine tarafından okunabilir biçimde sunmuyor.
+        if not item.get("published_at"):
+            item["snippet"] = "[Yayın tarihi sayfadan okunamadı; yeni keşfedilen bağlantı] " + item["snippet"]
+            new_items.append(item)
+            print("Tarihsiz yeni bağlantı bildirilecek:", item["url"], flush=True)
             continue
         try:
             published = datetime.fromisoformat(item["published_at"].replace("Z", "+00:00"))
@@ -289,7 +296,9 @@ def main():
             else:
                 print("Eski duyuru bildirime alinmadi:", item["url"], flush=True)
         except ValueError:
-            print("Yayin tarihi okunamadi; bildirim atlandi:", item["url"], flush=True)
+            item["snippet"] = "[Yayın tarihi çözümlenemedi; yeni keşfedilen bağlantı] " + item["snippet"]
+            new_items.append(item)
+            print("Tarih çözümlenemedi; yeni bağlantı bildirilecek:", item["url"], flush=True)
     if new_items:
         send_mail(new_items)
         send_telegram(new_items)
