@@ -60,6 +60,7 @@
     "https://aksehir.adalet.gov.tr/talimat-burosu",
     "https://aksehir.adalet.gov.tr/yunak-personel",
     "https://alanya.adalet.gov.tr/Arsiv/duyuru",
+    "https://alanya.adalet.gov.tr/adalet-bakanligi-ceza-ve-tevkifevleri-genel-mudurlugunun-sozlu-sinav-sonuclari",
     "https://alanya.adalet.gov.tr/bilirkisi-yeminine-iliskin-duyuru_145733",
     "https://alanya.adalet.gov.tr/sozlesmeli-zabit-katibi-uygulama-sinav-sonucu-ve-sozlu-sinava-iliskin-duyuru",
     "https://alasehir.adalet.gov.tr/Arsiv/duyuru",
@@ -449,6 +450,7 @@
     "https://ergani.adalet.gov.tr/sözleşmeli-mübaşir-başvuru-sonuçları",
     "https://ergani.adalet.gov.tr/vpn-kullanma-talimati",
     "https://ermenek.adalet.gov.tr/Arsiv/duyuru",
+    "https://ermenek.adalet.gov.tr/ermenek-adalet-komisyonunca-yapilan-cte-sozlesmeli-infaz-ve-koruma-memuru-ceza-infaz-kurumu-katibi",
     "https://ermenek.adalet.gov.tr/sozlesmeli-ceza-infaz-kurumu-katibi-uygulamali-sinav-sonuclari",
     "https://ermenek.adalet.gov.tr/sozlesmeli-infaz-ve-koruma-memurlugu-boy-kilo-olcum-sonuclari_141568",
     "https://ermenek.adalet.gov.tr/sozlesmeli-mubasirlik-basvuru-sonuclari",
@@ -657,6 +659,7 @@
     "https://karabuk.adalet.gov.tr/6 Haziran etkinlikleri kapsamında Cezaevi personellerinden Başsavcı Akman’a Ziyaret",
     "https://karabuk.adalet.gov.tr/Arsiv/duyuru",
     "https://karabuk.adalet.gov.tr/Sözleşmeli Zabıt Kâtibi Sözlü Sınav İlanı",
+    "https://karabuk.adalet.gov.tr/karabuk-infaz-koruma-memuru-hemsire-sofor-sozlu-sinav-sonucu-nihai-liste",
     "https://karadenizeregli.adalet.gov.tr/2026-yili-kdzeregli-adliyesi-sozlesmeli-koruma-ve-guvenlik-gorevlisi-alimina-iliskin-basvuru-sonucl",
     "https://karadenizeregli.adalet.gov.tr/2026-yili-kdzeregli-adliyesi-zabit-katibi-alimina-iliskin-basvuru-sonuclari-sorgu-ekrani",
     "https://karadenizeregli.adalet.gov.tr/Arsiv/duyuru",
@@ -668,6 +671,10 @@
     "https://karaman.adalet.gov.tr/Arsiv/duyuru",
     "https://kars.adalet.gov.tr/2027-yili-tercuman-listesi-olusturma-ilani",
     "https://kars.adalet.gov.tr/Arsiv/duyuru",
+    "https://kars.adalet.gov.tr/ceza-infaz-kurumu-sozlesmeli-asci-nihai-basari-listesi",
+    "https://kars.adalet.gov.tr/ceza-infaz-kurumu-sozlesmeli-cezaevi-katibi-sozlu-sinav-sonuclarina-iliskin-duyuru",
+    "https://kars.adalet.gov.tr/ceza-infaz-kurumu-sozlesmeli-hemsire-sozlu-sinav-sonuclarina-iliskin-duyuru",
+    "https://kars.adalet.gov.tr/ceza-infaz-kurumu-sozlesmeli-sofor-sozlu-sinav-sonuclarina-iliskin-duyuru",
     "https://kars.adalet.gov.tr/kars-adli-destek-ve-magdur-hizmetleri-mudurlugunce-cocuk-teslimi-ve-cocukla-kisisel-iliski-kurulmasi",
     "https://kars.adalet.gov.tr/kars-adli-destek-ve-magdur-hizmetleri-mudurlugunce-cocuk-teslimi-ve-cocukla-kisisel-iliski-kurulmasi_98550",
     "https://kars.adalet.gov.tr/sozlesmeli-hemsir-sozlu-sinava-katilmaya-hak-kazananlarin-ilani",
@@ -944,6 +951,7 @@
     "https://reyhanli.adalet.gov.tr/sozlesmeli-zabit-k-tibi-basvuru-sonuclari-ile-uygulama-sinavi-yer-ve-tarihine-iliskin-duyuru",
     "https://reyhanli.adalet.gov.tr/sozlesmeli-zabit-k-tibi-uygulamali-sinav-sonucuna-iliskin-duyuru",
     "https://reyhanli.adalet.gov.tr/vpn-kullanma-talimati",
+    "https://rize.adalet.gov.tr/2026-yili-ceza-infaz-kurumu-sozlesmeli-personel-sozlu-sinav-sonuclari",
     "https://rize.adalet.gov.tr/2026-yili-sozlesmeli-icra-katipligi-uygulama-sinav-sonucu-sorgulama-ve-sozlu-sinav-ilani",
     "https://rize.adalet.gov.tr/2026-yili-sozlesmeli-mubasir-ve-hizmetli-basvuru-sonucu",
     "https://rize.adalet.gov.tr/2026-yili-sozlesmeli-zabit-katibi-klavye-uygulama-sonucu-ve-sozlu-sinav-ilani_142427",
@@ -1195,5 +1203,5 @@
     "https://zonguldak.adalet.gov.tr/talimat-burosu",
     "https://zonguldak.adalet.gov.tr/zonguldak-adliyesi-2027-yili-tercuman-bilirkisi-basvuru-ilani"
   ],
-  "updated": "2026-11-20T15:20:58.223067+00:00"
+  "updated": "2026-11-20T15:26:04.788764+00:00"
 }
