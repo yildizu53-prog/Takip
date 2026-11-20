@@ -53,6 +53,7 @@
     "https://aksehir.adalet.gov.tr/doganhisar-personel",
     "https://aksehir.adalet.gov.tr/personel",
     "https://aksehir.adalet.gov.tr/sozlesmeli-infaz-ve-koruma-memuru-sozlu-sinav-duyurusu",
+    "https://aksehir.adalet.gov.tr/sozlesmeli-infaz-ve-koruma-memuru-sozlu-sinavi-sonuclari",
     "https://aksehir.adalet.gov.tr/sozlesmeli-mubasir-basvuru-sonuclari",
     "https://aksehir.adalet.gov.tr/sozlesmeli-zabit-k-tibi-klavye-sinavina-girmeye-hak-kazanan-adaylara-iliskin-basvuru-sonuclari",
     "https://aksehir.adalet.gov.tr/sozlesmeli-zabit-k-tibi-klavye-uygulama-sinavi-sonuclari-ve-sozlu-sinav-duyurusu_142716",
@@ -671,6 +672,8 @@
     "https://kastamonu.adalet.gov.tr/Arsiv/duyuru",
     "https://kastamonu.adalet.gov.tr/adliyemiz-bunyesinde-duzenlenen-yardim-kampanyasi-ve-personellerimizden-olusan-25-kisilik-gonullu-ek",
     "https://kastamonu.adalet.gov.tr/cezaevi-sozlesmeli-bayan-infaz-koruma-memuru-icin-sozlu-sinava-girmeye-hak-kazananlar-ve-mulakat-tar",
+    "https://kastamonu.adalet.gov.tr/cte-kaloriferci-alimi-nihai-sonuc-listesi-aciklanmistir",
+    "https://kastamonu.adalet.gov.tr/cte-sofor-alimi-nihai-sonuc-listesi-aciklanmistir",
     "https://kastamonu.adalet.gov.tr/sozlesmeli-kaloriferci-icin-sozlu-sinava-girmeye-hak-kazananlar-ve-mulakat-tarihi-duyurusu",
     "https://kayseri.adalet.gov.tr/2027-yili-tercuman-basvuru-ilani",
     "https://kayseri.adalet.gov.tr/Arsiv/duyuru",
@@ -1177,5 +1180,5 @@
     "https://zonguldak.adalet.gov.tr/talimat-burosu",
     "https://zonguldak.adalet.gov.tr/zonguldak-adliyesi-2027-yili-tercuman-bilirkisi-basvuru-ilani"
   ],
-  "updated": "2026-11-20T14:41:07.949652+00:00"
+  "updated": "2026-11-20T14:45:55.006917+00:00"
 }
