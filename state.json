@@ -797,6 +797,8 @@
     "https://menemen.adalet.gov.tr/Arsiv/duyuru",
     "https://menemen.adalet.gov.tr/Bilirkisi_yemin_islemleri_duyuru",
     "https://menemen.adalet.gov.tr/cte_soslesmeli_hemsire_alimi_mulakat",
+    "https://menemen.adalet.gov.tr/cte_soslesmeli_sofor_alimi_mulakat",
+    "https://menemen.adalet.gov.tr/cte_soslesmeli_teknisyen_sihhi_tesisat_alimi_mulakat",
     "https://menemen.adalet.gov.tr/sozlesmeli-zabit-katibi-sozlu-mulakat-kazanan",
     "https://mersin.adalet.gov.tr/2025 Yılı Bilirkişilik Başvurularına İlişkin Duyuru",
     "https://mersin.adalet.gov.tr/Arsiv/duyuru",
@@ -941,6 +943,7 @@
     "https://sakaryabbk.adalet.gov.tr/2025-yili-bilirkisilik-basvurulari-kabul-kismen-kabulret-ret-edilenler-ile-yenileme-basvurusund_145293",
     "https://salihli.adalet.gov.tr/Arsiv/duyuru",
     "https://salihli.adalet.gov.tr/basın duyuruları",
+    "https://salihli.adalet.gov.tr/cte-sozlesmeli-hemsire-sinavi-nihai-basari-listesi",
     "https://salihli.adalet.gov.tr/cte-sozlesmeli-hemsire-teknisyen-gida-teknolojisi-asci-teknisyen-sihhi-teknisyen-sozlu-sinavi",
     "https://salihli.adalet.gov.tr/kapatilan-salihli-2-icra-dairesinin-aktarilan-dosyalar",
     "https://salihli.adalet.gov.tr/sozlesmeli-destek-personeli-hizmetli-sinavina-girmeye-hak-kazananlara-iliskin-duyuru",
@@ -1173,5 +1176,5 @@
     "https://zonguldak.adalet.gov.tr/talimat-burosu",
     "https://zonguldak.adalet.gov.tr/zonguldak-adliyesi-2027-yili-tercuman-bilirkisi-basvuru-ilani"
   ],
-  "updated": "2026-11-20T14:25:51.638298+00:00"
+  "updated": "2026-11-20T14:31:22.194217+00:00"
 }
