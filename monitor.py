@@ -129,13 +129,14 @@ def is_recruitment_notice(item, body):
         return True
 
     employment_terms = (
-        "personel", "memur", "isçi", "isci", "zabit katibi",
+        "personel", "memur", "isci", "zabit katibi", "zabit katipligi",
         "infaz koruma", "mubasir", "guvenlik gorevlisi",
         "surekli isci", "sozlesmeli", "sofor", "hizmetli",
     )
     process_terms = (
         "alim", "alimi", "basvuru", "sinav", "mulakat",
         "sozlu", "uygulamali", "sonuc", "asil", "yedek",
+        "basari", "nihai", "liste", "degerlendirme",
         "basarili", "basarisiz", "kura", "atama", "yerlestirme",
     )
     return any(term in text for term in employment_terms) and any(
