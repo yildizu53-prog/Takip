@@ -2,7 +2,7 @@ import os, json, smtplib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from email.mime.text import MIMEText
 from urllib.parse import urljoin, urlparse, urldefrag
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,7 +14,7 @@ INDEXES = {
 }
 STATE = "state.json"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; AdliyeDuyuruTakip/1.1)"}
-KEYWORDS = ("duyuru", "ilan", "personel", "sınav", "sinav", "alım", "alim", "mülakat", "mulakat", "sonuç", "sonuc")
+KEYWORDS = ("duyuru", "ilan", "personel", "sınav", "sinav", "alım", "alim", "mülakat", "mulakat", "sonuç", "sonuc", "başvuru", "basvuru", "atama", "sözleşmeli", "sozlesmeli", "işçi", "isci", "memur", "katip", "kâtip", "zabıt", "zabit", "kura", "uygulama", "liste")
 
 # Paralel tarama: bir sitenin yanıt vermemesi tüm taramayı uzun süre bekletmesin.
 REQUEST_TIMEOUT = 10
@@ -274,31 +274,13 @@ def main():
         send_scan_success(len(roots), len(candidates), len(verified), 0)
         return
 
-    # Tarihi okunamayan veya son 24 saatten eski sayfalar bildirilmez.
-    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
-    new_items = []
-    for item in verified:
-        if item["url"] in seen:
-            continue
-        # Tarih bilgisi yoksa yeni keşfedilen bağlantıyı da bildir:
-        # bazı adliye sayfaları yayın tarihini makine tarafından okunabilir biçimde sunmuyor.
+    # Amaç: adliye sitesine yeni eklenen duyuru bağlantısını yakalamak.
+    # Yayın tarihi filtresi kullanılmaz; tarihi olmayan ya da eski tarih gösteren
+    # yeni keşfedilmiş personel alımı/sonuç duyuruları da kullanıcıya iletilir.
+    new_items = [item for item in verified if item["url"] not in seen]
+    for item in new_items:
         if not item.get("published_at"):
-            item["snippet"] = "[Yayın tarihi sayfadan okunamadı; yeni keşfedilen bağlantı] " + item["snippet"]
-            new_items.append(item)
-            print("Tarihsiz yeni bağlantı bildirilecek:", item["url"], flush=True)
-            continue
-        try:
-            published = datetime.fromisoformat(item["published_at"].replace("Z", "+00:00"))
-            if published.tzinfo is None:
-                published = published.replace(tzinfo=timezone.utc)
-            if published >= cutoff:
-                new_items.append(item)
-            else:
-                print("Eski duyuru bildirime alinmadi:", item["url"], flush=True)
-        except ValueError:
-            item["snippet"] = "[Yayın tarihi çözümlenemedi; yeni keşfedilen bağlantı] " + item["snippet"]
-            new_items.append(item)
-            print("Tarih çözümlenemedi; yeni bağlantı bildirilecek:", item["url"], flush=True)
+            item["snippet"] = "[Yayın tarihi sayfadan okunamadı] " + item["snippet"]
     if new_items:
         send_mail(new_items)
         send_telegram(new_items)
