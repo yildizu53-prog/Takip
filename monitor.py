@@ -113,36 +113,47 @@ def normalize_text(value):
 
 
 def is_recruitment_notice(item, body):
-    # Tek başına "duyuru", "sınav", "başvuru" gibi kelimeler yeterli değildir.
-    # İçerikte personel/işçi alımı veya buna bağlı sınav-sonuç süreci aranır.
-    text = normalize_text(item.get("title", "") + " " + body)
-    direct_phrases = (
-        "personel alimi", "personel alim", "personel temini",
-        "sozlesmeli personel", "surekli isci alimi", "isci alimi",
-        "zabit katibi alimi", "zabıt katibi alimi", "zabıt katibi alım",
+    # Bildirim için genel "duyuru/sınav/sonuç" kelimeleri yeterli değildir.
+    # Meslek/personel alımı ifadesi ile alım süreci ifadesi birlikte aranır.
+    title = normalize_text(item.get("title", ""))
+    opening = normalize_text(body[:1800])
+    text = title + " " + opening
+
+    recruitment_phrases = (
+        "personel alimi", "personel alim ilani", "personel temini",
+        "surekli isci alimi", "isci alimi", "memur alimi",
+        "zabit katibi alimi", "zabit katibi alim", "zabit katipligi alimi",
         "infaz ve koruma memuru alimi", "infaz koruma memuru alimi",
         "mubasir alimi", "koruma ve guvenlik gorevlisi alimi",
-        "sofor alimi", "hizmetli alimi", "teknisyen alimi",
-        "memur alimi", "aday tespit", "personel alim sonuclari",
+        "sozlesmeli personel alimi", "sozlesmeli personel alim",
     )
-    if any(normalize_text(phrase) in text for phrase in direct_phrases):
+    if any(phrase in text for phrase in recruitment_phrases):
         return True
 
-    employment_terms = (
-        "personel", "memur", "isci", "zabit katibi", "zabit katipligi",
-        "infaz koruma", "mubasir", "guvenlik gorevlisi",
-        "surekli isci", "sozlesmeli", "sofor", "hizmetli",
+    role_terms = (
+        "zabit katibi", "zabit katipligi", "infaz koruma",
+        "infaz ve koruma", "mubasir", "adalet memuru",
+        "guvenlik gorevlisi", "surekli isci", "sozlesmeli personel",
+        "personel alimi", "personel temini", "isci alimi", "memur alimi",
     )
-    process_terms = (
-        "alim", "alimi", "basvuru", "sinav", "mulakat",
-        "sozlu", "uygulamali", "sonuc", "asil", "yedek",
-        "basari", "nihai", "liste", "degerlendirme",
-        "basarili", "basarisiz", "kura", "atama", "yerlestirme",
+    result_terms = (
+        "nihai basari", "basari listesi", "basari siralamasi",
+        "sonuc", "sonuclari", "asil", "yedek", "mulakat",
+        "sozlu sinav", "uygulamali sinav", "sinav sonucu",
+        "degerlendirme sonucu", "kura sonucu", "atama",
     )
-    return any(term in text for term in employment_terms) and any(
-        term in text for term in process_terms
-    )
+    has_role = any(term in title for term in role_terms)
+    has_process = any(term in title for term in result_terms)
+    if has_role and has_process:
+        return True
 
+    # Bazı sitelerde başlık sadece "Duyuru" olur. Bu durumda sayfanın
+    # giriş kısmında hem açık bir meslek/personel adı hem sonuç/alım süreci aranır.
+    return (
+        any(term in opening for term in role_terms)
+        and any(term in opening for term in result_terms)
+        and any(term in opening for term in ("alim", "basvuru", "sinav", "mulakat", "sonuc", "basari"))
+    )
 
 def parse_published_date(soup):
     selectors = [
