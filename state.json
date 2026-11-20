@@ -164,6 +164,7 @@
     "https://bartin.adalet.gov.tr/bartin-kapali-ceza-infaz-kurumuna-sozlesmeli-hemsire-ve-sofor-alimina-iliskin-nihai-sonuclar",
     "https://bartin.adalet.gov.tr/lojmanlarimiz",
     "https://bartin.adalet.gov.tr/sozlesmeli-mubasir-sinav-ilani",
+    "https://batman.adalet.gov.tr/2026-yili-cezaevi-katipligi-cezaevi-hemsire-cezaevi-asci-sozlu-sinav-sonuclarini-gosterir-ilan",
     "https://batman.adalet.gov.tr/2026-yili-sozlesmeli-cezaevi-katibi-hemsire-asci-ve-teknisyen-elektrik-sozlu-sinav-ilani",
     "https://batman.adalet.gov.tr/2027-tercuman-bilirkisiligine-secilenlere-ait-liste",
     "https://batman.adalet.gov.tr/2027-yili-tercuman-bilirkisi-ilani",
@@ -393,6 +394,11 @@
     "https://edb.adalet.gov.tr/TumHaberler/1",
     "https://edirne.adalet.gov.tr/2027-yili-tercuman-ilani",
     "https://edirne.adalet.gov.tr/Arsiv/duyuru",
+    "https://edirne.adalet.gov.tr/asci",
+    "https://edirne.adalet.gov.tr/ckatip",
+    "https://edirne.adalet.gov.tr/csofor",
+    "https://edirne.adalet.gov.tr/hemsire",
+    "https://edirne.adalet.gov.tr/ikm",
     "https://edirne.adalet.gov.tr/sozlesmeli-icra-katibi-klavye-uygulama-sinavi-sonuclari",
     "https://edirne.adalet.gov.tr/yemekhane-duyurusu",
     "https://elazig.adalet.gov.tr/Arsiv/duyuru",
@@ -676,6 +682,8 @@
     "https://kastamonu.adalet.gov.tr/Arsiv/duyuru",
     "https://kastamonu.adalet.gov.tr/adliyemiz-bunyesinde-duzenlenen-yardim-kampanyasi-ve-personellerimizden-olusan-25-kisilik-gonullu-ek",
     "https://kastamonu.adalet.gov.tr/cezaevi-sozlesmeli-bayan-infaz-koruma-memuru-icin-sozlu-sinava-girmeye-hak-kazananlar-ve-mulakat-tar",
+    "https://kastamonu.adalet.gov.tr/cte-asci-alimi-nihai-sonuc-listesi-aciklanmistir",
+    "https://kastamonu.adalet.gov.tr/cte-kadin-infaz-koruma-memuru-alimi-nihai-sonuc-listesi-aciklanmistir",
     "https://kastamonu.adalet.gov.tr/cte-kaloriferci-alimi-nihai-sonuc-listesi-aciklanmistir",
     "https://kastamonu.adalet.gov.tr/cte-sofor-alimi-nihai-sonuc-listesi-aciklanmistir",
     "https://kastamonu.adalet.gov.tr/sozlesmeli-kaloriferci-icin-sozlu-sinava-girmeye-hak-kazananlar-ve-mulakat-tarihi-duyurusu",
@@ -1184,5 +1192,5 @@
     "https://zonguldak.adalet.gov.tr/talimat-burosu",
     "https://zonguldak.adalet.gov.tr/zonguldak-adliyesi-2027-yili-tercuman-bilirkisi-basvuru-ilani"
   ],
-  "updated": "2026-11-20T14:55:42.124654+00:00"
+  "updated": "2026-11-20T15:01:44.124281+00:00"
 }
