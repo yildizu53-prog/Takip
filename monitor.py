@@ -104,26 +104,26 @@ def verify_candidate(candidate):
 
 
 def send_mail(items):
-    to_addr = os.environ.get("ALERT_TO", "").strip()
+    recipients = ["yildizu53@gmail.com", "yooe773@gmail.com"]
     user = os.environ.get("GMAIL_USER", "").strip()
     password = os.environ.get("GMAIL_APP_PASSWORD", "").replace(" ", "").strip()
-    if not all((to_addr, user, password)):
-        raise RuntimeError("E-posta gönderimi için ALERT_TO, GMAIL_USER ve GMAIL_APP_PASSWORD GitHub Secrets alanları dolu olmalı.")
+    if not all((user, password)):
+        raise RuntimeError("E-posta gönderimi için GMAIL_USER ve GMAIL_APP_PASSWORD GitHub Secrets alanları dolu olmalı.")
 
     for item in items:
-        message = MIMEText(
-            "Adliye/kaynak: " + item["site"] + "\nBaşlık: " + item["title"] +
-            "\nBağlantı: " + item["url"] + "\n\n" + item["snippet"][:500],
-            "plain", "utf-8"
-        )
-        message["Subject"] = "Yeni adliye duyurusu: " + item["title"]
-        message["From"] = user
-        message["To"] = to_addr
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
-            smtp.login(user, password)
-            smtp.send_message(message)
-        print("E-posta gönderildi:", item["url"], flush=True)
-
+        for to_addr in recipients:
+            message = MIMEText(
+                "Adliye/kaynak: " + item["site"] + "\nBaşlık: " + item["title"] +
+                "\nBağlantı: " + item["url"] + "\n\n" + item["snippet"][:500],
+                "plain", "utf-8"
+            )
+            message["Subject"] = "Yeni adliye duyurusu: " + item["title"]
+            message["From"] = user
+            message["To"] = to_addr
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
+                smtp.login(user, password)
+                smtp.send_message(message)
+            print("E-posta gönderildi:", to_addr, "|", item["url"], flush=True)
 
 
 def send_telegram(items):
