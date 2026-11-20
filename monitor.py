@@ -7,7 +7,11 @@ from datetime import datetime, timezone, timedelta
 import requests
 from bs4 import BeautifulSoup
 
-INDEX = "https://www.adalet.gov.tr/Birimler/ACM"
+INDEXES = {
+    "Adliyeler": "https://www.adalet.gov.tr/Birimler/ACM",
+    "Bölge Adliye Mahkemeleri": "https://www.adalet.gov.tr/Birimler/BAM",
+    "Bölge İdare Mahkemeleri": "https://www.adalet.gov.tr/Birimler/B%C4%B0M",
+}
 STATE = "state.json"
 HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; AdliyeDuyuruTakip/1.1)"}
 KEYWORDS = ("duyuru", "ilan", "personel", "sınav", "sinav", "alım", "alim", "mülakat", "mulakat", "sonuç", "sonuc")
@@ -54,12 +58,28 @@ def links(html, base):
 
 
 def discover():
-    html = get(INDEX)
-    if not html:
-        raise RuntimeError("Adalet Bakanlığı adliye dizini açılamadı; tarama durduruldu.")
-    hosts = {urlparse(url).hostname for url, _ in links(html, INDEX)}
-    roots = sorted("https://" + host + "/" for host in hosts if host)
-    print("Dizinde bulunan adliye alan adı:", len(roots), flush=True)
+    hosts = set()
+    failed = []
+    for category, index_url in INDEXES.items():
+        html = get(index_url)
+        if not html:
+            failed.append(category)
+            continue
+        category_hosts = {
+            urlparse(url).hostname
+            for url, _ in links(html, index_url)
+            if urlparse(url).hostname
+        }
+        hosts.update(category_hosts)
+        print(category + " dizininden bulunan site:", len(category_hosts), flush=True)
+
+    if not hosts:
+        raise RuntimeError("Adalet Bakanlığı adliye/BAM/BİM dizinleri açılamadı; tarama durduruldu.")
+    if failed:
+        print("Açılamayan dizinler:", ", ".join(failed), flush=True)
+
+    roots = sorted("https://" + host + "/" for host in hosts)
+    print("Toplam benzersiz adliye/BAM/BİM sitesi:", len(roots), flush=True)
     return roots[:MAX_ROOTS]
 
 
