@@ -109,7 +109,7 @@ def scan_root(root):
 def normalize_text(value):
     value = unicodedata.normalize("NFKD", value.lower())
     value = "".join(ch for ch in value if not unicodedata.combining(ch))
-    return re.sub(r"\\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", value).strip()
 
 
 def is_recruitment_notice(item, body):
