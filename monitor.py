@@ -195,7 +195,12 @@ def verify_candidate(candidate):
         "snippet": body[:500],
         "published_at": published_at.isoformat() if published_at else None,
     }
-    item["_recruitment_match"] = is_recruitment_notice(item, body)
+    # Ordu Adliyesi için istisna: personel alımı filtresinden bağımsız
+    # olarak ana sayfadan keşfedilen tüm duyuru/ilan bağlantıları bildirilir.
+    root_host = (urlparse(root).hostname or "").lower()
+    item["_recruitment_match"] = (
+        "ordu" in root_host or is_recruitment_notice(item, body)
+    )
     return item
 
 
